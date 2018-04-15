@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../assets/css/App.css';
-import logo from '../assets/img/logo.svg';
 import { getBattleField } from "./helpers/battleship";
 
 class App extends Component {
@@ -34,15 +33,17 @@ class App extends Component {
         <h1></h1>
         {battleField &&
         <table>
+          <tbody>
           {battleField.map((row, index) => {
             return (
               <tr key={index}>{row.map((column, index) => {
                 return (
-                  <td key={index} style={{width: '50px', height: '50px', border: '1px solid #e85052'}}>{column}</td>
+                  <td key={index} style={{ width: '30px', height: '30px', border: '1px solid #e85052' }}>{column}</td>
                 )
               })}</tr>
             )
           })}
+          </tbody>
         </table>
         }
       </div>
