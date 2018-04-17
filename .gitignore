@@ -19,3 +19,6 @@
 npm-debug.log*
 .idea/
 package-lock.json
+*.iws
+workspace.xml
+tasks.xml
