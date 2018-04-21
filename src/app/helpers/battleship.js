@@ -1,72 +1,194 @@
 import { shipTypes } from "../constants/constants";
 
+/*
+* Method generates battlefield with placed ships
+* */
 export const getBattleField = () => {
-  let battleField = [];
-
-  // Iterating fleet and getStartCoordinates for ship
-  let positions = [];
-
-  for (let i = 0; i < shipTypes.length; i++) {
-    let newPositions = generateShipPositions(shipTypes[i], positions);
-    positions.push(...newPositions);
-  }
-
-  for (let y = 0; y < 10; y++) {
-    let row = [];
-    for (let x = 0; x < 10; x++) {
-      let currentPosition = {
-        xPos: x,
-        yPos: y
-      };
-      if (arePositionsOccupied(positions, [currentPosition])) {
-        row.push('Х');
-      } else row.push('.');
+  let battleField = [10];
+  for (let i = 0; i < 10; i++) {
+    battleField[i] = [10];
+    for (let j = 0; j < 10; j++) {
+      battleField[i][j] = null;
     }
-    battleField.push(row)
   }
-  console.log(`------------------------------`);
+  for (let i = 0; i < shipTypes.length; i++) {
+    battleField = generateShipPositions(shipTypes[i], battleField);
+  }
   return battleField;
 };
 
-const generateShipPositions = (ship, positions) => {
+/*
+* Generates random ship positions
+*
+* @param1 initial ship
+* @param2 initial battlefield
+*
+* @returns updated battlefield
+* */
+const generateShipPositions = (ship, battleField) => {
   let shipStartPosition = null;
-  let i = 0;
-  while (shipStartPosition === null) {
+  let continueLoop = true;
+  while (continueLoop) {
     shipStartPosition = getRandomCoordinate();
-    if (!arePositionsOccupied(positions, [shipStartPosition])) {
+    if (positionIsFree(battleField, shipStartPosition)) {
+      let x = shipStartPosition[0];
+      let y = shipStartPosition[1];
       let directions = getDirections();
+      battleField[x][y] = ship.size * 100;
+      battleField = refillNeighbourCells(battleField, x, y, ship.size);
+
       for (let i = 0; i < directions.length; i++) {
-        let tempCoordinates = tryDirections(directions[i], ship, shipStartPosition, positions);
-        if (tempCoordinates) {
-          for (let l = 0; l < tempCoordinates.length; l++) {
-            positions.push(tempCoordinates[l]);
-            positions.push(...refillNeighbourCells(tempCoordinates[l]))
-          }
-          return positions;
+
+        let tempBattlefield = makeClone(battleField);
+        let newBattleField = tryDirections(directions[i], ship, shipStartPosition, tempBattlefield);
+        if (newBattleField !== null) {
+          continueLoop = false;
+          battleField = [...newBattleField];
+          break;
+        } else {
+          tempBattlefield = newBattleField = null;
         }
       }
-    } else {
-      shipStartPosition = null;
     }
   }
-
-  return positions;
+  return battleField;
 };
 
-const arePositionsOccupied = (cells, positions) => {
-  for (let i = 0; i < cells.length; i++) {
-    for (let j = 0; j < positions.length; j++) {
-      if (cells[i].xPos === positions[j].xPos && cells[i].yPos === positions[j].yPos) {
-        return true;
-      }
+/*
+*  Method tries different direction of ship placement
+*    @param1 direction
+*    @param2 initialship
+*    @param3 start position
+*    @param4 initial battlefield
+*
+*    @returns new battlefield or null
+* */
+function tryDirections(direction, ship, shipStartPosition, battleField) {
+  let x = shipStartPosition[0];
+  let y = shipStartPosition[1];
+  let wrongDirection = false;
+
+  for (let i = 1; i < ship.size; i++) {
+    switch (direction) {
+      case 0:
+        if (y + i > 9) {
+          wrongDirection = true;
+          break;
+        } else if (positionIsFree(battleField, [x, y + i]) || battleField[x][y + i] === ship.size) {
+          battleField[x][y + i] = ship.size * 100;
+          refillNeighbourCells(battleField, x, y + i, ship.size);
+          wrongDirection = false;
+          break;
+        } else {
+          wrongDirection = true;
+          break;
+        }
+      case 1:
+        if (x + i > 9) {
+          wrongDirection = true;
+          break;
+        } else if (positionIsFree(battleField, [x + i, y]) || battleField[x + i][y] === ship.size) {
+          battleField[x + i][y] = ship.size * 100;
+          refillNeighbourCells(battleField, x + i, y, ship.size);
+          wrongDirection = false;
+          break;
+        } else {
+          wrongDirection = true;
+          break;
+        }
+      case 2:
+        if (y - i < 0) {
+          wrongDirection = true;
+          break;
+        } else if (positionIsFree(battleField, [x, y - i]) || battleField[x][y - i] === ship.size) {
+          battleField[x][y - i] = ship.size * 100;
+          refillNeighbourCells(battleField, x, y - i, ship.size);
+          wrongDirection = false;
+          break;
+        } else {
+          wrongDirection = true;
+          break;
+        }
+      case 3:
+        if (x - i < 0) {
+          wrongDirection = true;
+          break;
+        } else if (positionIsFree(battleField, [x - i, y]) || battleField[x - i][y] === ship.size) {
+          battleField[x - i][y] = ship.size * 100;
+          refillNeighbourCells(battleField, x - i, y, ship.size);
+          wrongDirection = false;
+          break;
+        } else {
+          wrongDirection = true;
+          break;
+        }
+
+      default:
+        break;
     }
   }
-  console.log(`arePositionsOccupied where to check = `, JSON.stringify(cells));
-  console.log(`arePositionsOccupied what to check = `, JSON.stringify(positions));
-  return false;
+  if (wrongDirection) {
+    return null;
+  } else {
+    return battleField;
+  }
+}
+
+/*
+*  Method marks neighbour cells of initial position on battlefield
+*
+*  @param1 initial battlefield
+*  @param2 x axis coordinate
+*  @param3 y axis coordinate
+*  @param4 initial ship size
+*
+*  @returns updated battleField
+* */
+const refillNeighbourCells = (battleField, x, y, shipSize) => {
+  if (y < 9 && battleField[x][y + 1] === null) {
+    battleField[x][y + 1] = shipSize;
+  }
+  if (x < 9 && y < 9 && battleField[x + 1][y + 1] === null) {
+    battleField[x + 1][y + 1] = shipSize;
+  }
+  if (x < 9 && battleField[x + 1][y] === null) {
+    battleField[x + 1][y] = shipSize;
+  }
+  if (x < 9 && y > 0 && battleField[x + 1][y - 1] === null) {
+    battleField[x + 1][y - 1] = shipSize;
+  }
+  if (y > 0 && battleField[x][y - 1] === null) {
+    battleField[x][y - 1] = shipSize;
+  }
+  if (x > 0 && y > 0 && battleField[x - 1][y - 1] === null) {
+    battleField[x - 1][y - 1] = shipSize;
+  }
+  if (x > 0 && battleField[x - 1][y] === null) {
+    battleField[x - 1][y] = shipSize;
+  }
+  if (x > 0 && y < 9 && battleField[x - 1][y + 1] === null) {
+    battleField[x - 1][y + 1] = shipSize;
+  }
+  return battleField;
 };
 
-// returns random sequence of directions
+/*
+*  Checks position
+*
+*  @param1 initial battlefield
+*  @param2 initial positin
+*
+*  @return true if position is free
+* */
+const positionIsFree = (battleField, position) => {
+  let x = position[0];
+  let y = position[1];
+  return !(battleField[x][y] > 0);
+};
+
+/*
+* Returns random sequence of ship placing directions
+* */
 const getDirections = () => {
   let directions = [];
   for (let i = 0; directions.length < 4; i++) {
@@ -78,118 +200,37 @@ const getDirections = () => {
   return directions;
 };
 
-// try to place ship to map
-function tryDirections(i, ship, shipPosition, positions) {
-  let tempCoordinates = [];
-  for (let l = 0; l < ship.size; l++) {
-    let position = {};
-    let newPos = 0;
-    switch (i) {
-      case 0:
-        newPos = shipPosition.yPos + l;
-        if (newPos > 9) {
-          console.log(`break on ${ship.name}`, newPos);
-          return null;
-        }
-        position = {
-          xPos: shipPosition.xPos,
-          yPos: newPos
-        };
-        tempCoordinates.push(position);
-        break;
-      case 1:
-        newPos = shipPosition.xPos + l;
-        if (newPos > 9) {
-          console.log(`break on ${ship.name}`, newPos);
-          return null;
-        }
-        position = {
-          xPos: newPos,
-          yPos: shipPosition.yPos,
-        };
-        tempCoordinates.push(position);
-        break;
-      case 2:
-        newPos = shipPosition.yPos - l;
-        if (newPos < 0) {
-          console.log(`break on ${ship.name}`, newPos);
-          return null;
-        }
-        position = {
-          xPos: shipPosition.xPos,
-          yPos: newPos,
-        };
-        tempCoordinates.push(position);
-        break;
-      case 3:
-        newPos = shipPosition.xPos - l;
-        if (newPos < 0) {
-          console.log(`break on ${ship.name}`, newPos);
-          return null;
-        }
-        position = {
-          xPos: newPos,
-          yPos: shipPosition.yPos,
-        };
-        tempCoordinates.push(position);
-        break;
-      default:
-        break;
-    }
-  }
-  if (arePositionsOccupied(positions, tempCoordinates)) {
-    return null;
-  } else {
-    console.log(`ready to place for ${ship.name} = ${JSON.stringify(tempCoordinates)}`);
-  }
-}
-
-// returns positions with neighbour marked
-const refillNeighbourCells = (position) => {
-  let result = [];
-  for (let i = 0; i < 4; i++) {
-    switch (i) {
-      case 0:
-        result.push({
-          xPos: position.xPos,
-          yPos: position.yPos + 1
-        });
-        break;
-
-      case 1:
-        result.push({
-          xPos: position.xPos + 1,
-          yPos: position.yPos
-        });
-        break;
-      case 2:
-        result.push({
-          xPos: position.xPos,
-          yPos: position.yPos - 1
-        });
-        break;
-      case 3:
-        result.push({
-          xPos: position.xPos - 1,
-          yPos: position.yPos
-        });
-        break;
-    }
-  }
-  return result;
-};
-
+/*
+* Returns random coordinate
+* */
 const getRandomCoordinate = () => {
   const max = 9;
-  return {
-    xPos: Math.floor(Math.random() * max),
-    yPos: Math.floor(Math.random() * max)
-  }
+  return [Math.floor(Math.random() * max), Math.floor(Math.random() * max)]
 };
 
-// returns random number in range from 0 to @param 'max'
+/*
+* Returns random number in range from 0 to @param 'max'
+* */
 const getRandomNumber = (max) => {
   return Math.floor(Math.random() * max)
+};
+
+/*
+*  Makes clone of battleField
+*
+*  @param initial battleField
+*
+*  @returns clone of initial battleField
+* */
+const makeClone = (battleField) => {
+  let clone = [10];
+  for (let i = 0; i < 10; i++) {
+    clone[i] = [10];
+    for (let j = 0; j < 10; j++) {
+      clone[i][j] = battleField[i][j];
+    }
+  }
+  return clone;
 };
 
 
