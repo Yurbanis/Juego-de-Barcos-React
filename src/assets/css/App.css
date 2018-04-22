@@ -2,28 +2,23 @@
     text-align: center;
 }
 
-.App-header {
-    background-color: #74757b;
+.battlefieldTable {
+    border: 3px solid #f4b23e;
+}
+
+.navbar {
+    background-color: #9498f8;
     height: 50px;
     padding: 20px;
+    color: white;
+}
+
+.color {
     color: #58b4a0;
 }
 
-.App-title {
-    font-size: 1.5em;
-}
-
-.App-intro {
-    font-size: large;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.row {
+    padding-top: 30px;
 }
 
 table {
