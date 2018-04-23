@@ -222,7 +222,7 @@ const getRandomNumber = (max) => {
 *
 *  @returns clone of initial battleField
 * */
-const makeClone = (battleField) => {
+export const makeClone = (battleField) => {
   let clone = [10];
   for (let i = 0; i < 10; i++) {
     clone[i] = [10];
