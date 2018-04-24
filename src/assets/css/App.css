@@ -43,12 +43,19 @@ h1 {
     height: 300px;
     width: 300px;
 }
+
 .shipIcon {
     width: 100px;
     height: auto;
     padding: 10px;
 }
 
-.cellHidden {
+p {
+    color: #595959;
+}
 
+hr {
+    border-color: #595959;
+    margin: 0 10px 0 10px;
+    border-top-width: 2px;
 }

@@ -34,8 +34,8 @@ const generateShipPositions = (ship, battleField) => {
       let x = shipStartPosition[0];
       let y = shipStartPosition[1];
       let directions = getDirections();
-      battleField[x][y] = ship.size * 100;
-      battleField = refillNeighbourCells(battleField, x, y, ship.size);
+      battleField[x][y] = ship.id * 100;
+      battleField = refillNeighbourCells(battleField, x, y, ship.id);
 
       for (let i = 0; i < directions.length; i++) {
 
@@ -74,9 +74,9 @@ function tryDirections(direction, ship, shipStartPosition, battleField) {
         if (y + i > 9) {
           wrongDirection = true;
           break;
-        } else if (positionIsFree(battleField, [x, y + i]) || battleField[x][y + i] === ship.size) {
-          battleField[x][y + i] = ship.size * 100;
-          refillNeighbourCells(battleField, x, y + i, ship.size);
+        } else if (positionIsFree(battleField, [x, y + i]) || battleField[x][y + i] === ship.id) {
+          battleField[x][y + i] = ship.id * 100;
+          refillNeighbourCells(battleField, x, y + i, ship.id);
           wrongDirection = false;
           break;
         } else {
@@ -87,9 +87,9 @@ function tryDirections(direction, ship, shipStartPosition, battleField) {
         if (x + i > 9) {
           wrongDirection = true;
           break;
-        } else if (positionIsFree(battleField, [x + i, y]) || battleField[x + i][y] === ship.size) {
-          battleField[x + i][y] = ship.size * 100;
-          refillNeighbourCells(battleField, x + i, y, ship.size);
+        } else if (positionIsFree(battleField, [x + i, y]) || battleField[x + i][y] === ship.id) {
+          battleField[x + i][y] = ship.id * 100;
+          refillNeighbourCells(battleField, x + i, y, ship.id);
           wrongDirection = false;
           break;
         } else {
@@ -100,9 +100,9 @@ function tryDirections(direction, ship, shipStartPosition, battleField) {
         if (y - i < 0) {
           wrongDirection = true;
           break;
-        } else if (positionIsFree(battleField, [x, y - i]) || battleField[x][y - i] === ship.size) {
-          battleField[x][y - i] = ship.size * 100;
-          refillNeighbourCells(battleField, x, y - i, ship.size);
+        } else if (positionIsFree(battleField, [x, y - i]) || battleField[x][y - i] === ship.id) {
+          battleField[x][y - i] = ship.id * 100;
+          refillNeighbourCells(battleField, x, y - i, ship.id);
           wrongDirection = false;
           break;
         } else {
@@ -113,9 +113,9 @@ function tryDirections(direction, ship, shipStartPosition, battleField) {
         if (x - i < 0) {
           wrongDirection = true;
           break;
-        } else if (positionIsFree(battleField, [x - i, y]) || battleField[x - i][y] === ship.size) {
-          battleField[x - i][y] = ship.size * 100;
-          refillNeighbourCells(battleField, x - i, y, ship.size);
+        } else if (positionIsFree(battleField, [x - i, y]) || battleField[x - i][y] === ship.id) {
+          battleField[x - i][y] = ship.id * 100;
+          refillNeighbourCells(battleField, x - i, y, ship.id);
           wrongDirection = false;
           break;
         } else {
@@ -140,34 +140,34 @@ function tryDirections(direction, ship, shipStartPosition, battleField) {
 *  @param1 initial battlefield
 *  @param2 x axis coordinate
 *  @param3 y axis coordinate
-*  @param4 initial ship size
+*  @param4 initial ship id
 *
 *  @returns updated battleField
 * */
-const refillNeighbourCells = (battleField, x, y, shipSize) => {
+const refillNeighbourCells = (battleField, x, y, shipId) => {
   if (y < 9 && battleField[x][y + 1] === null) {
-    battleField[x][y + 1] = shipSize;
+    battleField[x][y + 1] = shipId;
   }
   if (x < 9 && y < 9 && battleField[x + 1][y + 1] === null) {
-    battleField[x + 1][y + 1] = shipSize;
+    battleField[x + 1][y + 1] = shipId;
   }
   if (x < 9 && battleField[x + 1][y] === null) {
-    battleField[x + 1][y] = shipSize;
+    battleField[x + 1][y] = shipId;
   }
   if (x < 9 && y > 0 && battleField[x + 1][y - 1] === null) {
-    battleField[x + 1][y - 1] = shipSize;
+    battleField[x + 1][y - 1] = shipId;
   }
   if (y > 0 && battleField[x][y - 1] === null) {
-    battleField[x][y - 1] = shipSize;
+    battleField[x][y - 1] = shipId;
   }
   if (x > 0 && y > 0 && battleField[x - 1][y - 1] === null) {
-    battleField[x - 1][y - 1] = shipSize;
+    battleField[x - 1][y - 1] = shipId;
   }
   if (x > 0 && battleField[x - 1][y] === null) {
-    battleField[x - 1][y] = shipSize;
+    battleField[x - 1][y] = shipId;
   }
   if (x > 0 && y < 9 && battleField[x - 1][y + 1] === null) {
-    battleField[x - 1][y + 1] = shipSize;
+    battleField[x - 1][y + 1] = shipId;
   }
   return battleField;
 };

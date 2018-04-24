@@ -6,6 +6,7 @@ import submarineIcon from './../../assets/img/Submarine Shape.png';
 
 export const shipTypes = [
   {
+    id: 1,
     name: 'Aircraft',
     size: 5,
     count: 1,
@@ -15,6 +16,7 @@ export const shipTypes = [
     hits: 0
   },
   {
+    id: 2,
     name: 'Battleship',
     size: 4,
     count: 1,
@@ -24,6 +26,7 @@ export const shipTypes = [
     hits: 0
   },
   {
+    id: 3,
     name: 'Cruiser',
     size: 3,
     count: 1,
@@ -33,6 +36,7 @@ export const shipTypes = [
     hits: 0
   },
   {
+    id: 4,
     name: 'Submarine',
     size: 3,
     count: 1,
@@ -42,12 +46,13 @@ export const shipTypes = [
     hits: 0
   },
   {
+    id: 5,
     name: 'Carrier',
     size: 2,
     count: 1,
     position: {},
     icon: carrierIcon,
-    hitPoints: 3,
+    hitPoints: 2,
     hits: 0
   }
 ];
