@@ -1,11 +1,12 @@
+import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import _ from 'lodash'
 import React, { Component } from 'react';
-import { Col, Grid, Navbar, Row } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import '../assets/css/App.css';
 import BattleField from './components/BattleField.js';
-import Flotilla from './components/Flotilla';
-import Scores from "./components/Scores";
+import Nav from "./components/Nav";
+import Stats from "./components/Stats";
 import { shipTypes } from './constants/constants';
 import { getBattleField, makeClone } from './helpers/generateBattleField';
 import { getMaxHits } from './helpers/getMaxHits';
@@ -18,7 +19,8 @@ class App extends Component {
       flotilla: null,
       shots: 0,
       hits: 0,
-      maxHits: 0
+      maxHits: 0,
+      screenMode: null
     }
   }
 
@@ -29,7 +31,6 @@ class App extends Component {
       flotilla: newFlotilla,
       maxHits: maxHits
     });
-    console.log(window.innerHeight)
   }
 
   onClick() {
@@ -93,39 +94,58 @@ class App extends Component {
     }
   }
 
+  updateDimensions(dimension) {
+    if (dimension < 992) {
+      this.setState({
+        screenMode: 'tablet'
+      })
+    } else {
+      this.setState({
+        screenMode: 'desktop'
+      })
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener("resize", () => this.updateDimensions(window.innerWidth));
+    this.updateDimensions(window.innerWidth);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", () => this.updateDimensions(window.innerWidth));
+  }
+
   render() {
-    let { battleField, flotilla, hits, shots } = this.state;
-    console.log(`this.state = ${JSON.stringify(flotilla[0].hits)}`);
-    console.log(`this.state = ${JSON.stringify(flotilla[1].hits)}`);
-    console.log(`this.state = ${JSON.stringify(flotilla[2].hits)}`);
-    console.log(`this.state = ${JSON.stringify(flotilla[3].hits)}`);
-    console.log(`this.state = ${JSON.stringify(flotilla[4].hits)}`);
+    let { battleField, flotilla, hits, screenMode, shots } = this.state;
+    let statsPanel = (
+      <Stats
+        flotilla={flotilla}
+        hits={hits}
+        shots={shots}
+      />
+    );
+    let battleFieldPanel = (
+      <BattleField
+        hits={hits}
+        battleField={battleField}
+        onClick={() => this.onClick()}
+        onCellClick={(x, y) => this.onCellClick(x, y)}
+        screenMode={screenMode}
+      />
+    );
+
     return (
       <div className='main-content'>
-        <Navbar>
-          <Navbar.Header>
-            <Navbar.Brand>
-              Battleships React Application
-            </Navbar.Brand>
-          </Navbar.Header>
-          <div onClick={() => this.resetGame()}>Reset game</div>
-        </Navbar>
+        <Nav
+          resetGame={() => this.resetGame()}
+          screenMode={screenMode}
+        />
         <Grid>
-          <Row className='show-grid'>
-            <Col lg={3} lgOffset={2}>
-              <Scores hits={hits} shots={shots}/>
-              <Flotilla flotilla={flotilla}/>
-            </Col>
-            <Col lg={4}>
-              <div className='text-center'>
-                <BattleField
-                  hits={hits}
-                  battleField={battleField}
-                  onClick={() => this.onClick()}
-                  onCellClick={(x, y) => this.onCellClick(x, y)}/>
-              </div>
-            </Col>
-          </Row>
+          {
+            screenMode === 'desktop'
+              ? <Row className='show-grid'>{statsPanel}{battleFieldPanel}</Row>
+              : <Row className='show-grid'>{battleFieldPanel}{statsPanel}</Row>
+          }
         </Grid>
       </div>
     );

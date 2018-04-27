@@ -11,19 +11,18 @@ class Flotilla extends Component {
   render() {
     let { flotilla } = this.props;
     return (
-      <div>
-        <div>
-          {
-            flotilla.map((ship, index) => {
-              return (
-                <div key={index}><img src={ship.icon} className="shipIcon" alt="shipIcon"/>
-                  <Hitpoints hitPoints={ship.hitPoints - ship.hits} hits={ship.hits}/>
-                </div>
-              )
-            })
-          }
-        </div>
-      </div>
+      <ul className='flotillaContainer'>
+        {
+          flotilla.map((ship, index) => {
+            return (
+              <li key={index} className='shipItem'>
+                <img src={ship.icon} className="shipIcon" alt="shipIcon"/>
+                <Hitpoints hitPoints={ship.hitPoints - ship.hits} hits={ship.hits}/>
+              </li>
+            )
+          })
+        }
+      </ul>
     );
   }
 }
