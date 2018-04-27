@@ -20,7 +20,7 @@ Below you will find some information about this project<br>
     ```npm install```
 3. Start application:
     ```npm start```
-4. Open ```http://localhost:3000/```
+4. Open in your browser [http://localhost:3000/](http://localhost:3000/)
 
 ##How to play
 For start - press [Start new game] on center of battlefield. For restart game press reset in desktop mode or press application name in tablet and phone mode.
