@@ -26,9 +26,9 @@ Below you will find some information about this project<br>
 For start - press [Start new game] on center of battlefield. For restart game press reset in desktop mode or press application name in tablet and phone mode.
 
 ##Gameplay video
-[[Desktop mode]](https://youtu.be/h8oCAoSDTp0)
-[[Tablet mode]](https://youtu.be/u4tn8XlQfws)
-[[Phone mode]](https://youtu.be/3k3QLbknZHs)
+[Desktop mode](https://youtu.be/h8oCAoSDTp0)
+[Tablet mode](https://youtu.be/u4tn8XlQfws)
+[Phone mode](https://youtu.be/3k3QLbknZHs)
 
 ##Sending Feedback
 My email is [your feedback](aziaev@gmail.com).
