@@ -2,6 +2,19 @@
     text-align: center;
 }
 
+.botones {
+    padding: 5px 10px;
+    background-color: #5c925e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+body {
+    background-color: blueviolet;
+}
+
 .main-content {
     min-width: 320px;
 }
@@ -17,9 +30,9 @@
 }
 
 .navbar-default {
-    background-color: #9498f8;
-    background: #9498f8;
-    border-color: #9498f8;
+    background-color: #0d0d0e;
+    background: #0d0d0e;
+    border-color: #0d0d0e;
     border-radius: 0;
     color: white;
     margin-bottom: 0;
@@ -46,7 +59,7 @@
 }
 
 h1 {
-    color: #ec6361;
+    color: #faf4f4;
 }
 
 @media (min-width: 320px) {
@@ -133,6 +146,7 @@ h1 {
     .hitPointMark {
         width: 10px;
         margin: 3px;
+        background-color: blueviolet;
     }
 
     .flotillaContainer {
@@ -155,7 +169,7 @@ h1 {
 
     .battleFieldPanel {
         padding-top: 20px;
-        background-color: white;
+        background-color: blueviolet;
     }
 
     .scoresPanel {
@@ -220,6 +234,7 @@ h1 {
     .hitPointMark {
         width: 12px;
         margin: 3px;
+        background-color: blueviolet;
     }
 
     .flotillaContainer {
@@ -242,7 +257,7 @@ h1 {
 
     .battleFieldPanel {
         padding-top: 20px;
-        background-color: white;
+        background-color: blueviolet;
     }
 
     .scoreText {
@@ -302,6 +317,7 @@ h1 {
     .hitPointMark {
         width: 12px;
         margin: 3px;
+        background-color: blueviolet;
     }
 
     .flotillaContainer {
@@ -324,7 +340,7 @@ h1 {
 
     .battleFieldPanel {
         padding-top: 20px;
-        background-color: white;
+        background-color: blueviolet;
     }
 
     .scoreText {
@@ -385,6 +401,8 @@ h1 {
     .hitPointMark {
         width: 12px;
         margin: 3px;
+        background-color: blueviolet;
+
     }
 
     .flotillaContainer {
@@ -395,13 +413,13 @@ h1 {
 }
 
 .scoreHits {
-    background-color: #f4b23e;
+    background-color: #40f777;
     width: 50%;
     float: left;
 }
 
 .scoreShots {
-    background-color: #58b4a0;
+    background-color: #98b0ab;
     width: 50%;
     float: left;
 }

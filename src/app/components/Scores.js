@@ -7,12 +7,12 @@ export default (props) => {
       <div className='scoreHits'>
         <h2 className='scores'>{hits}</h2>
         <hr/>
-        <p className='scoreText'>Hits</p>
+        <p className='scoreText'>Golpes</p>
       </div>
       <div className='scoreShots'>
         <h2 className='scores'>{shots}</h2>
         <hr/>
-        <p className='scoreText'>Shots</p>
+        <p className='scoreText'>Disparos</p>
       </div>
     </div>
   )

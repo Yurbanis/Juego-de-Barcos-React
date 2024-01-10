@@ -4,6 +4,7 @@ import carrierIcon from './../../assets/img/Carrier Shape.png';
 import cruiserIcon from './../../assets/img/Cruiser Shape.png';
 import submarineIcon from './../../assets/img/Submarine Shape.png';
 
+/* Se inicializa el tamaño de cada barco*/ 
 export const shipTypes = [
   {
     id: 1,

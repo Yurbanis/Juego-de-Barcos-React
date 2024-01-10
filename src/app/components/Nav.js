@@ -10,16 +10,16 @@ export default (props) => {
       <Navbar.Header>
         <Navbar.Brand>
           {screenMode === 'desktop'
-            ? <a href="/">{screenMode === 'desktop' ? 'Battleships React Application' : 'Battleships'}</a>
+            ? <a href="/">{screenMode === 'desktop' ? 'Juego de Barcos' : 'Battleships'}</a>
             : <a
-              onClick={() => resetGame()}>{screenMode === 'desktop' ? 'Battleships React Application' : 'Battleships'}</a>
+              onClick={() => resetGame()}>{screenMode === 'desktop' ? 'Juego de Barcos' : 'Battleships'}</a>
           }
         </Navbar.Brand>
       </Navbar.Header>
       {screenMode === 'desktop' &&
       <Nav pullRight>
         <NavItem onClick={() => resetGame()}>
-          Restart
+          Limpiar Tablero
         </NavItem>
       </Nav>
       }

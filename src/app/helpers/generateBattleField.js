@@ -1,7 +1,7 @@
 import { shipTypes } from "../constants/constants";
 
 /*
-* Method generates battlefield with placed ships
+* El método genera un campo de batalla con barcos colocados.
 * */
 export const getBattleField = () => {
   let battleField = [10];
@@ -18,12 +18,12 @@ export const getBattleField = () => {
 };
 
 /*
-* Generates random ship positions
+* Genera posiciones randon
 *
-* @param1 initial ship
-* @param2 initial battlefield
+* @param1 inicializa barco
+* @param2 inicializa campo de batalla
 *
-* @returns updated battlefield
+* @returns actualiza el campo de batalle
 * */
 const generateShipPositions = (ship, battleField) => {
   let shipStartPosition = null;
@@ -55,13 +55,13 @@ const generateShipPositions = (ship, battleField) => {
 };
 
 /*
-*  Method tries different direction of ship placement
-*    @param1 direction
-*    @param2 initialship
-*    @param3 start position
-*    @param4 initial battlefield
+*  El método prueba diferentes direcciones de colocación del barco.
+*    @param1 direccion
+*    @param2 inicial el barco
+*    @param3 inicia posicion
+*    @param4 Inicia Campo de batalla 
 *
-*    @returns new battlefield or null
+*    @returns nuevo campo de batalla o null
 * */
 function tryDirections(direction, ship, shipStartPosition, battleField) {
   let x = shipStartPosition[0];
@@ -135,14 +135,14 @@ function tryDirections(direction, ship, shipStartPosition, battleField) {
 }
 
 /*
-*  Method marks neighbour cells of initial position on battlefield
+* El método marca las celdas vecinas de la posición inicial en el campo de batalla
 *
-*  @param1 initial battlefield
-*  @param2 x axis coordinate
-*  @param3 y axis coordinate
-*  @param4 initial ship id
+*  @param1 Inciia campo de batalla
+*  @param2 coordenada del eje x
+*  @param3 coordenada del eje y
+*  @param4 inicia id del barco
 *
-*  @returns updated battleField
+*  @returns actualiza el campo de batalla
 * */
 const refillNeighbourCells = (battleField, x, y, shipId) => {
   if (y < 9 && battleField[x][y + 1] === null) {
@@ -173,12 +173,12 @@ const refillNeighbourCells = (battleField, x, y, shipId) => {
 };
 
 /*
-*  Checks position
+*  Comprueba la posición
 *
-*  @param1 initial battlefield
-*  @param2 initial positin
+*  @param1 inicia el campo de batalla
+*  @param2 inicia las posiciones
 *
-*  @return true if position is free
+*  @return verdadero si la posición está libre
 * */
 const positionIsFree = (battleField, position) => {
   let x = position[0];
@@ -187,7 +187,7 @@ const positionIsFree = (battleField, position) => {
 };
 
 /*
-* Returns random sequence of ship placing directions
+* Devuelve una secuencia aleatoria de direcciones de colocación de barcos.
 * */
 const getDirections = () => {
   let directions = [];
@@ -201,7 +201,7 @@ const getDirections = () => {
 };
 
 /*
-* Returns random coordinate
+* Devuelve coordenadas aleatorias
 * */
 const getRandomCoordinate = () => {
   const max = 9;
@@ -209,18 +209,18 @@ const getRandomCoordinate = () => {
 };
 
 /*
-* Returns random number in range from 0 to @param 'max'
+* Devuelve un número aleatorio en el rango de 0 a @param 'max'
 * */
 const getRandomNumber = (max) => {
   return Math.floor(Math.random() * max)
 };
 
 /*
-*  Makes clone of battleField
+* Hace un clon del campo de batalla.
 *
-*  @param initial battleField
+*  @param inicia el campo de batalla
 *
-*  @returns clone of initial battleField
+*  @returns Hace un clon del campo de batalla.
 * */
 export const makeClone = (battleField) => {
   let clone = [10];

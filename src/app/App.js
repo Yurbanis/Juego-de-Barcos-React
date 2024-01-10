@@ -127,6 +127,7 @@ class App extends Component {
     let battleFieldPanel = (
       <BattleField
         hits={hits}
+        shots={shots}
         battleField={battleField}
         onClick={() => this.onClick()}
         onCellClick={(x, y) => this.onCellClick(x, y)}
